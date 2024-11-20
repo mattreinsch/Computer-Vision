@@ -2,6 +2,8 @@ import streamlit as st
 import cv2
 import numpy as np
 from PIL import Image
+import requests
+import os
 
 st.title("Computer Vision Showcase")
 st.write("""
@@ -41,16 +43,29 @@ if uploaded_file is not None:
 
     elif option == 'Object Detection':
         try:
+            # Download YOLO model files
+            if not os.path.exists("yolov3.weights"):
+                weights_url = "https://pjreddie.com/media/files/yolov3.weights"
+                r = requests.get(weights_url, allow_redirects=True)
+                open("yolov3.weights", 'wb').write(r.content)
+            
+            if not os.path.exists("yolov3.cfg"):
+                cfg_url = "https://raw.githubusercontent.com/pjreddie/darknet/master/cfg/yolov3.cfg"
+                r = requests.get(cfg_url, allow_redirects=True)
+                open("yolov3.cfg", 'wb').write(r.content)
+            
+            if not os.path.exists("coco.names"):
+                names_url = "https://raw.githubusercontent.com/pjreddie/darknet/master/data/coco.names"
+                r = requests.get(names_url, allow_redirects=True)
+                open("coco.names", 'wb').write(r.content)
+
             # Load YOLO
-            net = cv2.dnn.readNet(
-                r"C:\Users\mreinsch\OneDrive - Werner Enterprises\Desktop\Websites\mysite\gdp-dashboard\yolov3.weights",
-                r"C:\Users\mreinsch\OneDrive - Werner Enterprises\Desktop\Websites\mysite\gdp-dashboard\yolov3.cfg"
-            )
+            net = cv2.dnn.readNet("yolov3.weights", "yolov3.cfg")
             layer_names = net.getLayerNames()
             output_layers = [layer_names[i - 1] for i in net.getUnconnectedOutLayers()]
 
             # Load class names
-            with open(r"C:\Users\mreinsch\OneDrive - Werner Enterprises\Desktop\Websites\mysite\gdp-dashboard\coco.names", "r") as f:
+            with open("coco.names", "r") as f:
                 classes = [line.strip() for line in f.readlines()]
 
             # Prepare the image
