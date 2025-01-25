@@ -9,15 +9,44 @@
             height: 100%;
             margin: 0;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            background-color: black; /* Set background color to black */
+        }
+        #demo {
+            width: 100%;
+            text-align: center;
+            background-color: black; /* Set background color to black */
+            padding: 10px;
+        }
+        #demo img {
+            max-width: 1000px; /* Adjust the size as needed */
+            height: auto;
         }
         iframe {
             width: 100%;
-            height: 100%;
+            height: calc(100% - 100px); /* Adjust height as needed */
             border: none;
+            flex-grow: 1;
+        }
+        details {
+            width: 100%;
+        }
+        summary {
+            background-color: #444;
+            color: white;
+            padding: 10px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
+    <details>
+        <summary>Show/Hide Demo</summary>
+        <div id="demo">
+            <img src="CPU_Viz.gif" alt="Loading...">
+        </div>
+    </details>
     <iframe src="https://computer-vision-unwd4gzmkursbgc6dumof7.streamlit.app/?embedded=true"></iframe>
 </body>
 </html>
