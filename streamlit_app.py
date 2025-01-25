@@ -26,7 +26,7 @@ if uploaded_file is not None:
     # Convert the file to an OpenCV image
     img = Image.open(uploaded_file)
     img = np.array(img)
-    st.image(img, caption='Uploaded Image', use_column_width=True)
+    st.image(img, caption='Uploaded Image', use_container_width=True)
 
     st.write("Choose a Computer Vision technique to apply:")
     
@@ -39,7 +39,7 @@ if uploaded_file is not None:
     if option == 'Edge Detection':
         # Apply Canny edge detection
         edges = cv2.Canny(img, 100, 200)
-        st.image(edges, caption='Edge Detection', use_column_width=True)
+        st.image(edges, caption='Edge Detection', use_container_width=True)
 
     elif option == 'Object Detection':
         try:
@@ -103,11 +103,11 @@ if uploaded_file is not None:
                     cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
                     cv2.putText(img, label, (x, y + 30), cv2.FONT_HERSHEY_PLAIN, 3, (0, 255, 0), 3)
 
-            st.image(img, caption='Object Detection', use_column_width=True)
+            st.image(img, caption='Object Detection', use_container_width=True)
         except Exception as e:
             st.error(f"Error: {e}")
 
     elif option == 'Blurring':
         # Apply Gaussian blur
         blurred = cv2.GaussianBlur(img, (15, 15), 0)
-        st.image(blurred, caption='Blurred Image', use_column_width=True)
+        st.image(blurred, caption='Blurred Image', use_container_width=True)
